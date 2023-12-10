@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.about-card {
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 0 0px rgba(0, 0, 0, 0.1), 15px 15px 0 0 #fbfb00; /* Adjusted the shadow to be below the about card */
+  padding: 20px;
+  max-width: 750px;
+  margin: 0 auto; 
+  text-align: left;
+  border: 1px dashed var(--gray-800, #3d3c3c);
+  font-family: 'Libre Baskerville', serif;
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: #060606;
+  text-align: center;
+  font-family: 'Roboto', sans-serif; /* Added the custom font */
+}

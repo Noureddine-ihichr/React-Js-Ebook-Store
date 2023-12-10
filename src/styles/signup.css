@@ -1,0 +1,59 @@
+/* Style for the form container */
+.sform {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 300px;
+  margin: auto; /* Center the form */
+  margin-top: 50px; /* Adjust the top margin as needed */
+}
+
+/* Style for the form labels */
+.sform label {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Style for the form inputs */
+.sform input {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Style for the submit button */
+.sub-btn {
+  background-color: #e8e80d;
+  display: flex;
+  margin-left: 110px;
+  margin-top: 12px;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Style for the link */
+.vlink {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.vlink-msg{
+ font-size: 12px;
+ margin-left: 25px;
+}
+
+.vlink-login-msg{
+ font-size: 12px;
+ margin-left: 44px;
+}
+
+

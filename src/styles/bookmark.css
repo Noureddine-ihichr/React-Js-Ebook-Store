@@ -1,0 +1,284 @@
+
+
+.favorites-section-Vzt {
+  box-sizing: border-box;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  margin-bottom: 40px;
+  padding: 20px; /* Add padding to the favorites section */
+}
+
+/*Bookmark Title*/
+.favorites-section-ELC {
+  margin-right: 0.1rem;
+  font-size: 5rem;
+  font-weight: 400;
+  line-height: 1.1825;
+  color: #000000;
+  font-family: Unica One, 'Source Sans Pro';
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+
+
+
+
+/*Bookcover contianers*/
+.auto-group-9veg-i8t {
+  width: 100%;
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap; /* Allow books to wrap to the next line on smaller screens */
+  justify-content: center; /* Center the book covers */
+}
+
+
+.coverbook-rnp {
+  width: 100%;
+  height: auto; /* Adjust to maintain aspect ratio */
+  border-radius: 1rem;
+}
+
+.group-9-J92 {
+  width: 56.0848rem;
+  height: 34.3062rem;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: flex-end;
+}
+ .auto-group-dgxk-252 {
+  margin-right: 1.6rem;
+  width: 20.2rem;
+  height: 100%;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+
+
+ .coverbook-fvc {
+  width: 20rem;
+  height: 29.8rem;
+  object-fit: cover;
+  vertical-align: top;
+  border-radius: 1rem;
+}
+
+.mark-Be4 {
+  width: 5rem;
+  height: 5rem;
+  position: absolute;
+  left: 15.1rem;
+  top: 0;
+  object-fit: contain;
+  vertical-align: top;
+}
+ .rectangle-115-LG4 {
+  width: 20.1rem;
+  height: 29.8rem;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #d9d9d9;
+  border-radius: 0.9rem;
+}
+ /*Bookmark*/
+.rectangle-29-fp8 {
+  width: 4.6rem;
+  height: 5rem;
+  position: absolute;
+  left: 15.6rem;
+  top: 0;
+  background-color: #ffffff;
+  border-radius: 1rem;
+}
+.bookmarksimple-aw6 {
+  width: 1.6rem;
+  height: 2.3rem;
+  cursor: pointer;
+  position: absolute;
+  left: 17.1rem;
+  top: 1.4rem;
+  object-fit: contain;
+  vertical-align: top;
+}
+
+.auto-group-d24k-eAG {
+  margin-right: 11.1rem;
+  width: 20.2rem;
+  height: 100%;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.group-10-Bfz {
+  margin-bottom: 1.1rem;
+  width: 100%;
+  height: 29.8rem;
+  position: relative;
+  flex-shrink: 0;
+}
+.bookmarked-8bE {
+  width: 20.1rem;
+  height: 29.8rem;
+  cursor: pointer;
+  position: absolute;
+  left: 0.1rem;
+  top: 0;
+}
+
+ .coverbook-RKS {
+  width: 20rem;
+  height: 29.8rem;
+  object-fit: cover;
+  vertical-align: top;
+  border-radius: 1rem;
+}
+.mark-LSQ {
+  width: 5rem;
+  height: 5rem;
+  position: absolute;
+  left: 15.1rem;
+  top: 0;
+  object-fit: contain;
+  vertical-align: top;
+}
+.rectangle-115-Rye {
+  width: 20.1rem;
+  height: 29.8rem;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #d9d9d9;
+  border-radius: 0.9rem;
+}
+ .rectangle-30-Zpx {
+  width: 4.6rem;
+  height: 5rem;
+  position: absolute;
+  left: 15.6rem;
+  top: 0;
+  background-color: #ffffff;
+  border-radius: 1rem;
+}
+.bookmarksimple-u88 {
+  width: 1.6rem;
+  height: 2.3rem;
+  cursor: pointer;
+  position: absolute;
+  left: 17.1rem;
+  top: 1.4rem;
+  object-fit: contain;
+  vertical-align: top;
+}
+.group-11-W7v {
+  width: 20.2rem;
+  height: 29.8rem;
+  position: absolute;
+  left: 44.4rem;
+  top: 0;
+}
+.coverbook-izg {
+  width: 20rem;
+  height: 29.8rem;
+  object-fit: cover;
+  vertical-align: top;
+  border-radius: 1rem;
+}
+ .mark-Sfn {
+  width: 5rem;
+  height: 5rem;
+  position: absolute;
+  left: 15.1rem;
+  top: 0;
+  object-fit: contain;
+  vertical-align: top;
+}
+.rectangle-115-aX6 {
+  width: 20.1rem;
+  height: 29.8rem;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #d9d9d9;
+  border-radius: 0.9rem;
+}
+ .rectangle-27-XBS {
+  width: 4.6rem;
+  height: 5rem;
+  position: absolute;
+  left: 15.1rem;
+  top: 0.1rem;
+  background-color: #ffffff;
+  border-radius: 1rem;
+}
+.bookmarksimple-aw6 {
+  width: 20px; /* Adjust the width as needed */
+  height: 20px; /* Adjust the height as needed */
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.bookmark-cover{
+  border-radius: 5px;
+
+}
+
+
+/* Inside your bookmark.css */
+.favorites-section-Vzt {
+  text-align: center;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 16px; /* Adjust the gap between book covers */
+}
+
+/* Inside your bookmark.css */
+/* ... (existing styles) */
+
+.book-cover-container {
+  position: relative;
+  margin-right: 16px; /* Adjust the margin between book covers */
+  margin-bottom: 16px; /* Add margin at the bottom of each book cover */
+}
+
+.book-cover {
+  width: 100%; /* Ensure the book covers take the full width of their container */
+}
+
+/* Inside your bookmark.css */
+/* ... (existing styles) */
+
+.bookmark-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px; /* Adjust the width as needed */
+  height: 25px; /* Adjust the height as needed */
+  cursor: pointer;
+}
+
+.clear-all-button{
+  padding:8px 8px;
+  background-color: #fdbf0f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+

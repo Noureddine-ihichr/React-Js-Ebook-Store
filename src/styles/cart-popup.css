@@ -1,0 +1,164 @@
+.cart-popup {
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 80%;
+  background-color: white;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+}
+
+.cart-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.cart-items {
+  display: grid;
+  gap: 20px;
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+
+
+.cart-item:hover {
+  transform: scale(1.05);
+}
+
+.cart-item img {
+  width: 70px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px; /* Add border-radius to the book cover */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.item-details {
+  flex-grow: 1;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+}
+
+
+
+
+
+.quantity-controls img {
+  width: 8%; /* Image will take up 50% of its container's width */
+  height: auto;
+  margin-left: 2px;
+  margin-right: 2px;
+  justify-content: center;
+
+ 
+}
+.quantity-controls span{
+ align-items: center;
+ margin-top: 12px;
+ 
+}
+
+.cart-footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-item{
+  gap: 6px;
+}
+.cart-item p {
+  margin: 0;
+}
+
+.cart-item p:last-child {
+  font-weight: bold;
+}
+
+.removebtn {
+  background-color: red;
+  color: white;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 5px;
+
+}
+
+.removebtn:hover {
+  background-color: #d9534f;
+
+}
+
+.back-arrow {
+  margin-left: auto;
+}
+
+.cart-title {
+  margin-left: 12px;
+}
+
+.clearcartbtn {
+  margin-left: 50px;
+  padding: 6px 12px;
+  color: rgb(0, 0, 0);
+  background-color: #ffff02;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.clearcartbtn:hover {
+  background-color: #f9d74c;
+}
+
+.emptycart {
+  margin-left: 30px;
+  color: #888;
+}
+
+
+
+
+.total-price {
+  /* styles for the total price */
+  margin: 0;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.checkout-btn {
+  /* styles for the checkout button */
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.checkout-btn:hover {
+  background-color: #45a049;
+}

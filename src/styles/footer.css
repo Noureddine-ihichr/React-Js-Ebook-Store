@@ -1,0 +1,47 @@
+/* Footer */
+.bookshop-footer {
+  margin-top: 50px;
+  padding: 20px 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bookshop-info {
+  margin-bottom: 20px;
+}
+
+.bookshop-info h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.bookshop-info p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  border-radius: 50%;
+  margin-bottom: 20px; /* Add margin-bottom to create space between content and social icons */
+}
+
+.social-icons img:hover {
+  transform: scale(1.1);
+}
+
+.social-icons img {
+  height: 32px;
+  width: 32px;
+  margin: 0 10px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.footer-author {
+  margin-top: auto; /* Use auto margin-top to push the footer to the bottom */
+  font-size: 14px;
+}
+
