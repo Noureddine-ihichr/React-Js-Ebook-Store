@@ -32,7 +32,7 @@ class Home extends React.Component {
           <div className="suggested-books">
             <h2 className="suggested-books-heading">SUGGESTED BOOKS</h2>
             <div className="suggested-books-container">
-              <Link to="/bookinfo/2"> {/* Update the indices based on your data */}
+              <Link to="/bookinfo/2">
                 <img src="/images/atomic habits.jpeg" alt="atomic habits" />
               </Link>
               <Link to="/bookinfo/15">

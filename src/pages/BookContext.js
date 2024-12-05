@@ -1,83 +1,123 @@
-// BookContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useUser } from './UserContext';
+import { showToast } from '../utils/toast';
 
 const BookContext = createContext();
 
 export const useBookContext = () => {
-  return useContext(BookContext);
+  const context = useContext(BookContext);
+  if (!context) {
+    throw new Error('useBookContext must be used within a BookProvider');
+  }
+  return context;
 };
 
 export const BookProvider = ({ children }) => {
   const [bookmarkedBooks, setBookmarkedBooks] = useState([]);
   const [cartItems, setCartItems] = useState([]);
+  const { user } = useUser();
 
   useEffect(() => {
-    // Retrieve bookmarked books from localStorage on component mount
-    const storedBookmarks = localStorage.getItem('bookmarkedBooks');
-    if (storedBookmarks) {
-      setBookmarkedBooks(JSON.parse(storedBookmarks));
-    }
+    if (user) {
+      const storedBookmarks = localStorage.getItem(`bookmarkedBooks_${user.email}`);
+      console.log('Retrieved bookmarkedBooks from localStorage:', storedBookmarks);
+      if (storedBookmarks) {
+        setBookmarkedBooks(JSON.parse(storedBookmarks));
+      }
 
-    // Retrieve cart items from localStorage on component mount
-    const storedCartItems = localStorage.getItem('cartItems');
-    if (storedCartItems) {
-      setCartItems(JSON.parse(storedCartItems));
+      const storedCartItems = localStorage.getItem('cartItems');
+      console.log('Retrieved cartItems from localStorage:', storedCartItems);
+      if (storedCartItems) {
+        setCartItems(JSON.parse(storedCartItems));
+      }
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
-    // Update localStorage when bookmarkedBooks change
-    localStorage.setItem('bookmarkedBooks', JSON.stringify(bookmarkedBooks));
+    console.log('Updating localStorage for bookmarkedBooks:', bookmarkedBooks);
+    if (user) {
+      localStorage.setItem(`bookmarkedBooks_${user.email}`, JSON.stringify(bookmarkedBooks));
+    }
 
-    // Update localStorage when cartItems change
+    console.log('Updating localStorage for cartItems:', cartItems);
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
-  }, [bookmarkedBooks, cartItems]);
+  }, [bookmarkedBooks, cartItems, user]);
 
   const addBookToBookmark = (book) => {
-    setBookmarkedBooks((prevBooks) => [...prevBooks, book]);
+    if (!user) {
+      return;
+    }
+
+    const isBookmarked = bookmarkedBooks.some(b => b.id === book.id);
+    if (isBookmarked) {
+      return;
+    }
+
+    const updatedBookmarks = [...bookmarkedBooks, book];
+    setBookmarkedBooks(updatedBookmarks);
   };
 
   const removeBookFromBookmark = (bookId) => {
-    setBookmarkedBooks((prevBooks) => prevBooks.filter((book) => book.id !== bookId));
+    const updatedBookmarks = bookmarkedBooks.filter(book => book.id !== bookId);
+    setBookmarkedBooks(updatedBookmarks);
   };
 
   const clearAllBookmarks = () => {
     setBookmarkedBooks([]);
+    showToast.success('All bookmarks cleared');
   };
 
   const addToCart = (book) => {
-    setCartItems((prevItems) => [...prevItems, { ...book, quantity: 1 }]);
+    console.log('Adding book to cart:', book);
+    const existingItem = cartItems.find(item => item.id === book.id);
+    if (existingItem) {
+      const updatedItems = cartItems.map(item =>
+        item.id === book.id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+      setCartItems(updatedItems);
+    } else {
+      setCartItems([...cartItems, { ...book, quantity: 1 }]);
+    }
   };
 
   const removeFromCart = (bookId) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== bookId));
+    console.log('Removing book from cart with ID:', bookId);
+    setCartItems(prevItems => prevItems.filter(item => item.id !== bookId));
   };
 
   const updateCartItemQuantity = (bookId, quantity) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) => (item.id === bookId ? { ...item, quantity } : item))
+    console.log('Updating quantity for book:', bookId, 'to:', quantity);
+    setCartItems(prevItems =>
+      prevItems.map(item =>
+        item.id === bookId
+          ? { ...item, quantity: Math.max(0, quantity) }
+          : item
+      ).filter(item => item.quantity > 0)
     );
   };
 
   const clearCart = () => {
     setCartItems([]);
+    localStorage.removeItem('cartItems');
   };
 
   return (
-    <BookContext.Provider
-      value={{
-        bookmarkedBooks,
-        addBookToBookmark,
-        removeBookFromBookmark,
-        clearAllBookmarks,
-        cartItems,
-        addToCart,
-        removeFromCart,
-        updateCartItemQuantity,
-        clearCart,
-      }}
-    >
+    <BookContext.Provider value={{
+      bookmarkedBooks,
+      addBookToBookmark,
+      removeBookFromBookmark,
+      clearAllBookmarks,
+      cartItems,
+      addToCart,
+      removeFromCart,
+      updateCartItemQuantity,
+      clearCart
+    }}>
       {children}
     </BookContext.Provider>
   );
 };
+
+export default BookContext;

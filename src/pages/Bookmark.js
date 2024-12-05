@@ -1,20 +1,51 @@
-// Inside your Bookmark component
 import React from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import { useBookContext } from './BookContext'; // Adjust the path
-import '../styles/bookmark.css'; // Import your stylesheet
+import { Link, useNavigate } from 'react-router-dom';
+import { useBookContext } from './BookContext';
+import { useCartContext } from './CartContext';
+import { useUser } from './UserContext';
+import { showToast } from '../utils/toast';
+import '../styles/bookmark.css';
 
 const Bookmark = () => {
   const { bookmarkedBooks, removeBookFromBookmark, clearAllBookmarks } = useBookContext();
+  const { addToCart } = useCartContext();
+  const { user } = useUser();
+  const navigate = useNavigate();
+
+  if (!user) {
+    showToast.warning('Please log in to view your bookmarks');
+    navigate('/login');
+    return null;
+  }
 
   const handleRemoveBookmark = (bookId) => {
-    // Remove the book from bookmarks when the bookmark icon is clicked
     removeBookFromBookmark(bookId);
   };
 
   const handleClearAll = () => {
-    // Clear all bookmarks
     clearAllBookmarks();
+  };
+
+  const handleAddToCart = (book) => {
+    addToCart({
+      id: book.id,
+      title: book.title,
+      price: book.price,
+      image: book.image,
+      quantity: 1
+    });
+    showToast.success('Added to cart successfully!');
+  };
+
+  const handleBuyNow = (book) => {
+    addToCart({
+      id: book.id,
+      title: book.title,
+      price: book.price,
+      image: book.image,
+      quantity: 1
+    });
+    navigate('/payment');
   };
 
   return (
@@ -35,6 +66,20 @@ const Bookmark = () => {
               className="bookmark-icon"
               onClick={() => handleRemoveBookmark(book.id)}
             />
+            <div className="button-group">
+              <button 
+                className="cart-btn"
+                onClick={() => handleAddToCart(book)}
+              >
+                Add to Cart
+              </button>
+              <button 
+                className="buy-btn"
+                onClick={() => handleBuyNow(book)}
+              >
+                Buy Now
+              </button>
+            </div>
           </div>
         ))}
       </div>

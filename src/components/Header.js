@@ -1,18 +1,38 @@
 // Header.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCartContext } from '../pages/CartContext';
-import { useUser } from '../pages/UserContext'; // Step 3: Import useUser hook
-
+import { useUser } from '../pages/UserContext';
 import CartPopup from '../pages/CartPopup';
+import { useNavigate } from 'react-router-dom';
+import { showToast } from '../utils/toast';
 import '../styles/style.css';
 
 const Header = () => {
-  const { user, logout } = useUser(); // Step 3: Use useUser hook to access user context
+  const { user, logout } = useUser();
   const { getTotalItems } = useCartContext();
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+      if (window.innerWidth > 1220 || window.innerWidth < 339) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleCartIconClick = () => {
+    if (!user) {
+      showToast.warning('Please log in to view your cart');
+      return;
+    }
     setIsCartOpen((prevIsOpen) => !prevIsOpen);
   };
 
@@ -20,60 +40,111 @@ const Header = () => {
     setIsCartOpen(false);
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
 
+  const handleLogout = () => {
+    logout();
+    showToast.success('Logged out successfully');
+    navigate('/');
+  };
 
   return (
     <div>
       <header className="header">
-        <div className="logo">BOOKTOREAD</div>
-        <nav className="nav">
+        <div className="logo">
+          <Link to="/" className="logo-link">
+            <span className="logo-text">
+              <span className="book">BOOK</span>
+              <span className="to">to</span>
+              <span className="read">READ</span>
+            </span>
+          </Link>
+        </div>
+        
+        {/* Mobile Menu Button */}
+        <button className="mobile-menu-button" onClick={toggleMobileMenu}>
+          <span className={`hamburger ${isMobileMenuOpen ? 'open' : ''}`}></span>
+        </button>
+
+        <nav className={`nav ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
           <div className="nav-links">
-            <Link to="/" className="nav-link">
+            <Link to="/" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>
               HOME
             </Link>
-            <Link to="/shop" className="nav-link">
+            <Link to="/shop" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>
               SHOP
             </Link>
-            <Link to="/about" className="nav-link">
+            <Link to="/about" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>
               ABOUT
             </Link>
-            <Link to="/contact" className="nav-link">
+            <Link to="/contact" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>
               CONTACT
             </Link>
+            {/* Mobile-only nav items */}
+            {isMobileMenuOpen && windowWidth <= 1220 && windowWidth >= 339 && (
+              <>
+                {!user && (
+                  <Link to="/signup" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>
+                    SIGNUP
+                  </Link>
+                )}
+                <Link to="/bookmarks" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>
+                  BOOKMARKS
+                </Link>
+                {user && (
+                  <Link to="#" className="nav-link" onClick={() => {
+                    handleLogout();
+                    setIsMobileMenuOpen(false);
+                  }}>
+                    LOGOUT
+                  </Link>
+                )}
+              </>
+            )}
           </div>
         </nav>
+
         <div className="signup-icons-container">
           {user ? (
-            // Display user information and logout button if user is logged in
             <div className="user-profile">
-            <div className="signup-icons-container">
-             <div className="profile-link">
-           
-             
-          </div>
-          <button className='log-out' onClick={logout}>Logout</button>
-              {user &&
+              <div className="signup-icons-container">
+                <div className="profile-link">
+                </div>
+                <div className="cart-icon-container" onClick={handleCartIconClick}>
+                  <img src="/images/cart.png" alt="Shopping Cart" />
+                  {getTotalItems() > 0 && <span className="cart-item-count">{getTotalItems()}</span>}
+                </div>
+                <button className='log-out' onClick={handleLogout}>Logout</button>
+                {user && (
                   <Link to="/UserProfile">
-                    <img className='userprofile-icon' src='/images/profile icon.png' alt="Profile Icon" />
+                    {user.profilePicture ? (
+                      <img 
+                        className='userprofile-icon' 
+                        src={user.profilePicture} 
+                        alt="Profile" 
+                      />
+                    ) : (
+                      <img 
+                        className='userprofile-icon' 
+                        src='/images/profile icon.png' 
+                        alt="Profile Icon" 
+                      />
+                    )}
                   </Link>
-                  }
-            
-        </div>
+                )}
+              </div>
             </div>
           ) : (
-            // Display signup and login links if user is not logged in
             <div className="signup">
-              <Link style={{  textDecoration: 'none', color: 'grey'}} to="/signup" className="signup-button">
+              <Link style={{ textDecoration: 'none', color: 'grey' }} to="/signup" className="signup-button">
                 SIGNUP
               </Link>
             </div>
           )}
           <div className="icons">
-             <div className="cart-icon-container" onClick={handleCartIconClick}>
-                <img src="/images/cart.png" alt="Shopping Cart" />
-                {getTotalItems() > 0 && <span className="cart-item-count">{getTotalItems()}</span>}
-              </div>
-              {isCartOpen && <CartPopup closeCartPopup={closeCartPopup} />}
+            {isCartOpen && <CartPopup closeCartPopup={closeCartPopup} />}
             <Link to="/bookmark">
               <img src="/images/bookmark.png" alt="Bookmark" />
             </Link>

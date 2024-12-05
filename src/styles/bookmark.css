@@ -1,5 +1,3 @@
-
-
 .favorites-section-Vzt {
   box-sizing: border-box;
   width: 100%;
@@ -25,10 +23,6 @@
   flex-shrink: 0;
 }
 
-
-
-
-
 /*Bookcover contianers*/
 .auto-group-9veg-i8t {
   width: 100%;
@@ -37,7 +31,6 @@
   flex-wrap: wrap; /* Allow books to wrap to the next line on smaller screens */
   justify-content: center; /* Center the book covers */
 }
-
 
 .coverbook-rnp {
   width: 100%;
@@ -54,7 +47,8 @@
   display: flex;
   align-items: flex-end;
 }
- .auto-group-dgxk-252 {
+
+.auto-group-dgxk-252 {
   margin-right: 1.6rem;
   width: 20.2rem;
   height: 100%;
@@ -64,9 +58,7 @@
   flex-shrink: 0;
 }
 
-
-
- .coverbook-fvc {
+.coverbook-fvc {
   width: 20rem;
   height: 29.8rem;
   object-fit: cover;
@@ -83,7 +75,8 @@
   object-fit: contain;
   vertical-align: top;
 }
- .rectangle-115-LG4 {
+
+.rectangle-115-LG4 {
   width: 20.1rem;
   height: 29.8rem;
   position: absolute;
@@ -92,7 +85,7 @@
   background-color: #d9d9d9;
   border-radius: 0.9rem;
 }
- /*Bookmark*/
+
 .rectangle-29-fp8 {
   width: 4.6rem;
   height: 5rem;
@@ -102,6 +95,7 @@
   background-color: #ffffff;
   border-radius: 1rem;
 }
+
 .bookmarksimple-aw6 {
   width: 1.6rem;
   height: 2.3rem;
@@ -122,6 +116,7 @@
   flex-direction: column;
   flex-shrink: 0;
 }
+
 .group-10-Bfz {
   margin-bottom: 1.1rem;
   width: 100%;
@@ -129,6 +124,7 @@
   position: relative;
   flex-shrink: 0;
 }
+
 .bookmarked-8bE {
   width: 20.1rem;
   height: 29.8rem;
@@ -138,13 +134,14 @@
   top: 0;
 }
 
- .coverbook-RKS {
+.coverbook-RKS {
   width: 20rem;
   height: 29.8rem;
   object-fit: cover;
   vertical-align: top;
   border-radius: 1rem;
 }
+
 .mark-LSQ {
   width: 5rem;
   height: 5rem;
@@ -154,6 +151,7 @@
   object-fit: contain;
   vertical-align: top;
 }
+
 .rectangle-115-Rye {
   width: 20.1rem;
   height: 29.8rem;
@@ -163,7 +161,8 @@
   background-color: #d9d9d9;
   border-radius: 0.9rem;
 }
- .rectangle-30-Zpx {
+
+.rectangle-30-Zpx {
   width: 4.6rem;
   height: 5rem;
   position: absolute;
@@ -172,6 +171,7 @@
   background-color: #ffffff;
   border-radius: 1rem;
 }
+
 .bookmarksimple-u88 {
   width: 1.6rem;
   height: 2.3rem;
@@ -182,6 +182,7 @@
   object-fit: contain;
   vertical-align: top;
 }
+
 .group-11-W7v {
   width: 20.2rem;
   height: 29.8rem;
@@ -189,6 +190,7 @@
   left: 44.4rem;
   top: 0;
 }
+
 .coverbook-izg {
   width: 20rem;
   height: 29.8rem;
@@ -196,7 +198,8 @@
   vertical-align: top;
   border-radius: 1rem;
 }
- .mark-Sfn {
+
+.mark-Sfn {
   width: 5rem;
   height: 5rem;
   position: absolute;
@@ -205,6 +208,7 @@
   object-fit: contain;
   vertical-align: top;
 }
+
 .rectangle-115-aX6 {
   width: 20.1rem;
   height: 29.8rem;
@@ -214,7 +218,8 @@
   background-color: #d9d9d9;
   border-radius: 0.9rem;
 }
- .rectangle-27-XBS {
+
+.rectangle-27-XBS {
   width: 4.6rem;
   height: 5rem;
   position: absolute;
@@ -223,6 +228,7 @@
   background-color: #ffffff;
   border-radius: 1rem;
 }
+
 .bookmarksimple-aw6 {
   width: 20px; /* Adjust the width as needed */
   height: 20px; /* Adjust the height as needed */
@@ -231,11 +237,11 @@
   top: 0;
   right: 0;
 }
+
 .bookmark-cover{
   border-radius: 5px;
 
 }
-
 
 /* Inside your bookmark.css */
 .favorites-section-Vzt {
@@ -281,4 +287,207 @@
   border-radius: 5px;
 }
 
+.bookmark-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
+.bookmark-container h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #333;
+  font-size: 2rem;
+}
+
+.bookmarks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.bookmark-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.bookmark-card:hover {
+  transform: translateY(-5px);
+}
+
+.book-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.book-info {
+  padding: 1.5rem;
+}
+
+.book-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.author {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.price {
+  color: #2c3e50;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.button-group button {
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.remove-btn {
+  background-color: #ff4757;
+  color: white;
+}
+
+.remove-btn:hover {
+  background-color: #ff6b81;
+}
+
+.cart-btn {
+  background-color: #fbfb00;
+  color: #000;
+  position: relative;
+  overflow: hidden;
+}
+
+.cart-btn:hover {
+  background-color: #ffff1a;
+  transform: translateY(-2px);
+}
+
+.cart-btn::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: -100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+}
+
+.cart-btn:hover::after {
+  left: 100%;
+}
+
+.buy-btn {
+  background-color: #2ecc71;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.buy-btn:hover {
+  background-color: #27ae60;
+  transform: translateY(-2px);
+}
+
+.buy-btn::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: -100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+}
+
+.buy-btn:hover::after {
+  left: 100%;
+}
+
+.empty-bookmarks {
+  text-align: center;
+  padding: 3rem;
+}
+
+.empty-bookmarks p {
+  color: #666;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.shop-btn {
+  background-color: #fbfb00;
+  color: #000;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.shop-btn:hover {
+  background-color: #ffff1a;
+  transform: translateY(-2px);
+}
+
+.clear-all-btn {
+  background-color: #e74c3c;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.clear-all-btn:hover {
+  background-color: #c0392b;
+}
+
+@media (max-width: 768px) {
+  .bookmarks-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .book-image {
+    height: 250px;
+  }
+
+  .button-group {
+    gap: 0.6rem;
+  }
+
+  .button-group button {
+    padding: 0.7rem;
+  }
+}

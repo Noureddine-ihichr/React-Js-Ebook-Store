@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useBookContext } from './BookContext';
 import { useParams } from 'react-router-dom';
 import { useUser } from '../pages/UserContext';
-import { useCartContext } from './CartContext'; // Adjust the path
+import { useCartContext } from './CartContext';
+import { showToast } from '../utils/toast';
 import booksData from '../datas/data';
 
 import '../styles/book-info.css';
@@ -15,7 +16,7 @@ const BookInfo = () => {
   const book = booksData.find((book) => book.id === bookId);
   const navigate = useNavigate();
   const { user } = useUser();
-  const { addToCart } = useCartContext(); // Import the addToCart function
+  const { addToCart } = useCartContext();
 
   const isBookmarked = useCallback(() => {
     return bookmarkedBooks.some((b) => b.id === bookId);
@@ -58,8 +59,7 @@ const BookInfo = () => {
 
   const toggleBookmark = () => {
     if (!user) {
-      // If the user is not logged in, navigate to the sign-up/login page
-      navigate('/login'); // You can adjust the path as needed
+      navigate('/login');
       return;
     }
 
@@ -72,29 +72,27 @@ const BookInfo = () => {
   };
 
   const addToCartHandler = () => {
-    // Redirect to signup page if the user is not logged in
     if (!user) {
-      navigate('/login'); // You can adjust the path as needed
+      showToast.warning('Please log in to add items to cart');
+      navigate('/login');
       return;
     }
 
     addToCart(book);
-    // Optionally, you can show a notification or perform other actions after adding to the cart
+    showToast.success('Added to cart successfully!');
   };
 
   const buyNowHandler = () => {
-    // Redirect to login page if the user is not logged in
     if (!user) {
-      navigate('/login'); // You can adjust the path as needed
+      showToast.warning('Please log in to purchase');
+      navigate('/login');
       return;
     }
     else{
+      addToCart(book);
       navigate('/payment');
     }
   }
-
-  
-
 
   return (
     <div className="book-info-page-Erp">

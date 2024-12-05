@@ -1,84 +1,68 @@
 // Login.js
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useUser } from '../pages/UserContext';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useUser } from './UserContext';
+import { showToast } from '../utils/toast';
 import '../styles/signup.css';
 
 const Login = () => {
-  const { login } = useUser();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { login } = useUser();
   const navigate = useNavigate();
 
-  const handleSignIn = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    
+    if (!email || !password) {
+      showToast.error('Please fill in all fields');
+      return;
+    }
 
-    // Retrieve stored users from localStorage
-    const storedDataString = localStorage.getItem('users');
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const user = users.find(u => u.email === email && u.password === password);
 
-    if (storedDataString) {
-      const storedUsers = JSON.parse(storedDataString);
-
-      // Find the user by email
-      const user = storedUsers.find((user) => user.email === email);
-
-      if (user && user.password === password) {
-        // Store the user data in localStorage for persistence
-        localStorage.setItem('user', JSON.stringify(user));
-
-        // Update the user context on successful login
-        login(user);
-
-        // Use toast notification
-        toast.success(`Welcome back, ${user.name}! Sign in successful!`);
-        navigate('/');
-      } else {
-        toast.error('Invalid email or password. Please try again.');
-      }
+    if (user) {
+      login(user);
+      showToast.success('Logged in successfully!');
+      navigate('/');
     } else {
-      toast.error('No account found. Please sign up first.');
+      showToast.error('Invalid email or password');
     }
   };
 
   return (
     <div className="login-container">
-      <form className="sform" onSubmit={handleSignIn}>
-        <label>Login</label>
-        <br />
-        <br />
-        <br />
-        <input
-          type="email"
-          placeholder="Your Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <br />
-        <input
-          type="password"
-          placeholder="Your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <br />
-        <br />
-        <label>
-          <span className='vlink-login-msg'>Don't have an account?</span>{' '}
-          <Link to="/signup" className="vlink">
-            {' '}
-            Sign Up
-          </Link>
-        </label>{' '}
-        <br />
-        <br />
+      <form className="sform" onSubmit={handleSubmit}>
+        <label>Welcome Back!</label>
+        <div className="form-fields">
+          <input
+            type="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <div className="links-container">
+          <span className="vlink-msg">
+            Don't have an account?{' '}
+            <Link to="/signup" className="vlink">
+              Sign Up
+            </Link>
+          </span>
+        </div>
         <button className="sub-btn" type="submit">
-          Submit
+          Login
         </button>
       </form>
-      <ToastContainer />
-      <br />
     </div>
   );
 };

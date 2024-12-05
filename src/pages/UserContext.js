@@ -7,16 +7,18 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   const login = (userData) => {
-    setUser({
+    // Get existing users from localStorage
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const existingUser = users.find(u => u.email === userData.email);
+    
+    // If user exists, use their stored data (including profile picture)
+    const finalUserData = existingUser || {
       ...userData,
-      // Ensure 'name' property is set correctly
       name: userData.name || '',
-    });
-    localStorage.setItem('userData', JSON.stringify({
-      ...userData,
-      // Ensure 'name' property is set correctly in local storage
-      name: userData.name || '',
-    }));
+    };
+
+    setUser(finalUserData);
+    localStorage.setItem('userData', JSON.stringify(finalUserData));
   };
 
   const logout = () => {
@@ -24,22 +26,34 @@ export const UserProvider = ({ children }) => {
     localStorage.removeItem('userData');
   };
 
-  useEffect(() => {
-    // Check for user data in local storage when the component mounts
-    const storedUserData = localStorage.getItem('userData');
+  const updateUser = (updatedData) => {
+    // Update the current user state
+    setUser(updatedData);
+    
+    // Update in userData (for current session)
+    localStorage.setItem('userData', JSON.stringify(updatedData));
+    
+    // Update in users array (for future logins)
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const updatedUsers = users.map(u => 
+      u.email === updatedData.email ? { ...u, ...updatedData } : u
+    );
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
+  };
 
+  useEffect(() => {
+    const storedUserData = localStorage.getItem('userData');
     if (storedUserData) {
       const userData = JSON.parse(storedUserData);
       setUser({
         ...userData,
-        // Ensure 'name' property is set correctly
         name: userData.name || '',
       });
     }
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, login, logout }}>
+    <UserContext.Provider value={{ user, login, logout, updateUser }}>
       {children}
     </UserContext.Provider>
   );
@@ -52,3 +66,5 @@ export const useUser = () => {
   }
   return context;
 };
+
+export default UserContext;

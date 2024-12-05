@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCartContext } from './CartContext';
+import { showToast } from '../utils/toast';
 import '../styles/cart-popup.css';
 import CheckoutForm from './CheckoutForm';
 
@@ -11,7 +12,29 @@ const CartPopup = ({ closeCartPopup }) => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
   };
 
+  const handleQuantityChange = (bookId, newQuantity) => {
+    if (newQuantity < 1) {
+      showToast.warning('Quantity cannot be less than 1');
+      return;
+    }
+    if (newQuantity > 10) {
+      showToast.warning('Maximum quantity is 10');
+      return;
+    }
+    updateQuantity(bookId, newQuantity);
+    showToast.success('Cart updated');
+  };
+
+  const handleRemove = (bookId) => {
+    removeFromCart(bookId);
+    showToast.success('Item removed from cart');
+  };
+
   const handleCheckout = () => {
+    if (cart.length === 0) {
+      showToast.error('Your cart is empty');
+      return;
+    }
     setShowCheckoutForm(true);
   };
 
@@ -49,25 +72,18 @@ const CartPopup = ({ closeCartPopup }) => {
                         className='minus'
                         src='/images/minus.png'
                         alt='decreasebtn'
-                        onClick={() => {
-                          const newQuantity = item.quantity - 1;
-                          if (newQuantity > 0) {
-                            updateQuantity(item.id, newQuantity);
-                          } else {
-                            removeFromCart(item.id);
-                          }
-                        }}
+                        onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
                       />
                       <span>{item.quantity}</span>
                       <img
                         className='plus'
                         src='/images/plus.png'
                         alt='increase'
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
                       />
                     </div>
                     <p>${(item.price * item.quantity).toFixed(2)}</p>
-                    <button className='removebtn' onClick={() => removeFromCart(item.id)}>Remove</button>
+                    <button className='removebtn' onClick={() => handleRemove(item.id)}>Remove</button>
                   </div>
                 </div>
               ))}

@@ -1,59 +1,157 @@
 /* Style for the form container */
 .sform {
   background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: 300px;
-  margin: auto; /* Center the form */
-  margin-top: 50px; /* Adjust the top margin as needed */
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 350px;
+  margin: 50px auto;
+  position: relative;
+  transition: transform 0.3s ease;
 }
 
-/* Style for the form labels */
-.sform label {
-  font-size: 18px;
-  font-weight: bold;
+.sform:hover {
+  transform: translateY(-5px);
+}
+
+/* Style for the form title */
+.sform label:first-child {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  text-align: center;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.sform label:first-child::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 3px;
+  background-color: #e8e80d;
+  margin: 8px auto 0;
+  border-radius: 2px;
 }
 
 /* Style for the form inputs */
 .sform input {
   width: 100%;
-  padding: 8px;
-  margin: 5px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 12px 15px;
+  margin: 8px 0;
+  border: 2px solid #eee;
+  border-radius: 8px;
   box-sizing: border-box;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  background-color: #f8f8f8;
+}
+
+.sform input:focus {
+  border-color: #e8e80d;
+  outline: none;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(232, 232, 13, 0.1);
+}
+
+.sform input::placeholder {
+  color: #999;
 }
 
 /* Style for the submit button */
 .sub-btn {
   background-color: #e8e80d;
-  display: flex;
-  margin-left: 110px;
-  margin-top: 12px;
-  color: white;
-  padding: 10px;
+  color: #333;
+  padding: 12px 30px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
+  font-weight: 600;
+  width: 100%;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+  display: block;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Style for the link */
+.sub-btn:hover {
+  background-color: #d1d10c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(232, 232, 13, 0.2);
+}
+
+.sub-btn:active {
+  transform: translateY(0);
+}
+
+/* Style for the links container */
+.links-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Style for the link messages */
+.vlink-msg,
+.vlink-login-msg {
+  font-size: 14px;
+  color: #666;
+  display: block;
+  text-align: center;
+  margin: 20px 0 0 0;
+}
+
+/* Style for the links */
 .vlink {
-  color: #007bff;
+  color: #e8e80d;
   text-decoration: none;
-  font-size: 15px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: color 0.3s ease;
+  position: relative;
 }
 
-.vlink-msg{
- font-size: 12px;
- margin-left: 25px;
+.vlink:hover {
+  color: #d1d10c;
 }
 
-.vlink-login-msg{
- font-size: 12px;
- margin-left: 44px;
+.vlink::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: #e8e80d;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
 }
 
+.vlink:hover::after {
+  transform: scaleX(1);
+}
 
+/* Responsive styles */
+@media (max-width: 480px) {
+  .sform {
+    width: 90%;
+    padding: 20px;
+    margin: 30px auto;
+  }
+
+  .sform label:first-child {
+    font-size: 20px;
+  }
+
+  .sform input {
+    padding: 10px 12px;
+  }
+
+  .sub-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}

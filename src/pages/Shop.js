@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../pages/UserContext';
 import { useBookContext } from './BookContext';
 import { useCartContext } from './CartContext';
+import { showToast } from '../utils/toast';
 import '../styles/shop.css';
 import booksData from '../datas/data';
 
@@ -17,29 +18,30 @@ const Shop = () => {
   };
 
   const toggleBookmark = (book) => {
-    // Redirect to signup page if the user is not logged in
     if (!user) {
-      navigate('/signup');
+      showToast.error('Please log in to bookmark books');
+      setTimeout(() => navigate('/signup'), 1500);
       return;
     }
 
-    // Toggle bookmark status
     if (isBookmarked(book)) {
       removeBookFromBookmark(book.id);
+      showToast.success('Book removed from bookmarks');
     } else {
       addBookToBookmark(book);
+      showToast.success('Book added to bookmarks');
     }
   };
 
   const handleAddToCart = (book) => {
-    // Redirect to signup page if the user is not logged in
     if (!user) {
-      navigate('/signup');
+      showToast.error('Please log in to add items to cart');
+      setTimeout(() => navigate('/signup'), 1500);
       return;
     }
 
-    // Add the book to the cart
     addToCart(book);
+    showToast.success('Book added to cart');
   };
 
   return (
@@ -56,7 +58,7 @@ const Shop = () => {
                 alt={book.name}
               />
             </Link>
-            <div className="details" >
+            <div className="details">
               <div className="price-container">
                 <Link to={`/bookinfo/${book.id}`} style={{ textDecoration: 'none' }}>
                   <div className="price">{`$${book.price}`}</div>

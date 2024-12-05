@@ -1,9 +1,8 @@
-// SignUp.js
+// Signup.js
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useUser } from '../pages/UserContext';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useUser } from './UserContext';
+import { showToast } from '../utils/toast';
 import '../styles/signup.css';
 
 const SignUp = () => {
@@ -19,71 +18,89 @@ const SignUp = () => {
 
     // Validation: Ensure phone number has exactly 10 digits
     if (!/^\d{10}$/.test(phoneNumber)) {
-      toast.error('Phone number must have exactly 10 digits.');
+      showToast.error('Phone number must have exactly 10 digits');
       return;
     }
 
-    // Assuming you have user data like { email, password, name, ... }
-    const user = { email, password, name, phoneNumber };
+    if (!email || !password || !name || !phoneNumber) {
+      showToast.error('Please fill in all fields');
+      return;
+    }
 
     // Get existing users from local storage or initialize an empty array
-    const storedDataString = localStorage.getItem('users');
-    const storedUsers = storedDataString ? JSON.parse(storedDataString) : [];
+    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
 
     // Check if the email is already registered
     if (storedUsers.some((existingUser) => existingUser.email === email)) {
-      toast.error('Email is already registered. Please use a different email.');
+      showToast.error('Email is already registered');
       return;
     }
 
+    // Create new user object
+    const user = {
+      email,
+      password,
+      name,
+      phoneNumber,
+      profilePicture: null
+    };
+
     // Add the new user to the array
     storedUsers.push(user);
-
-    // Save the updated user array back to local storage
     localStorage.setItem('users', JSON.stringify(storedUsers));
 
-    // Store the user data in localStorage for persistence
-    localStorage.setItem('user', JSON.stringify(user));
-
-    login(user); // Update the user context on successful signup
-    toast.success(`Welcome, ${name}! Sign up successful!`);
+    // Log user in
+    login(user);
+    showToast.success('Account created successfully!');
     navigate('/');
   };
 
   return (
-    <div>
+    <div className="signup-container">
       <form className="sform" onSubmit={handleSignUp}>
-        <label>Sign Up</label><br /><br /><br />
-        <input
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        /><br />
-        <input
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        /><br />
-        <input
-          placeholder="Phone Number"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
-          pattern="[0-9]*"
-          maxLength="10"
-          required
-        /><br />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        /><br />
-        <label className='vlink-msg'><span className='vlink-msg'>Already have an account?</span> <Link to="/login" className="vlink">Login</Link></label>
-        <br /><br />
-        <button type="submit" className="sub-btn">Submit</button>
+        <label>Create Account</label>
+        <div className="form-fields">
+          <input
+            placeholder="Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            placeholder="Phone Number"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            pattern="[0-9]*"
+            maxLength="10"
+            required
+          />
+          <input
+            type="password"
+            placeholder="Create Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <div className="links-container">
+          <span className="vlink-msg">
+            Already have an account?{' '}
+            <Link to="/login" className="vlink">
+              Login
+            </Link>
+          </span>
+        </div>
+        <button type="submit" className="sub-btn">
+          Create Account
+        </button>
       </form>
-      <ToastContainer />
-      <br />
     </div>
   );
 };
