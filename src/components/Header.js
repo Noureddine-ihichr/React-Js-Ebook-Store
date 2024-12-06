@@ -6,7 +6,7 @@ import { useUser } from '../pages/UserContext';
 import CartPopup from '../pages/CartPopup';
 import { useNavigate } from 'react-router-dom';
 import { showToast } from '../utils/toast';
-import '../styles/style.css';
+import '../styles/header.css';
 
 const Header = () => {
   const { user, logout } = useUser();
@@ -53,6 +53,10 @@ const Header = () => {
   return (
     <div>
       <header className="header">
+        <button className="mobile-menu-button" onClick={toggleMobileMenu}>
+          <span className={`hamburger ${isMobileMenuOpen ? 'open' : ''}`}></span>
+        </button>
+
         <div className="logo">
           <Link to="/" className="logo-link">
             <span className="logo-text">
@@ -63,12 +67,10 @@ const Header = () => {
           </Link>
         </div>
         
-        {/* Mobile Menu Button */}
-        <button className="mobile-menu-button" onClick={toggleMobileMenu}>
-          <span className={`hamburger ${isMobileMenuOpen ? 'open' : ''}`}></span>
-        </button>
-
         <nav className={`nav ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
+          <button className="mobile-menu-close" onClick={() => setIsMobileMenuOpen(false)}>
+            ×
+          </button>
           <div className="nav-links">
             <Link to="/" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>
               HOME
@@ -83,17 +85,16 @@ const Header = () => {
               CONTACT
             </Link>
             {/* Mobile-only nav items */}
-            {isMobileMenuOpen && windowWidth <= 1220 && windowWidth >= 339 && (
+            {isMobileMenuOpen && windowWidth <= 992 && (
               <>
-                {!user && (
+                <Link to="/bookmark" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>
+                  BOOKMARK
+                </Link>
+                {!user ? (
                   <Link to="/signup" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>
                     SIGNUP
                   </Link>
-                )}
-                <Link to="/bookmarks" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>
-                  BOOKMARKS
-                </Link>
-                {user && (
+                ) : (
                   <Link to="#" className="nav-link" onClick={() => {
                     handleLogout();
                     setIsMobileMenuOpen(false);
