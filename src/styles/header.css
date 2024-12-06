@@ -16,58 +16,33 @@
   order: 1;
   padding: 10px;
   font-family: 'Roboto', sans-serif;
-  font-weight: 700;
   margin-left: 20px;
   margin-right: auto;
   flex: 0 0 auto;
   position: relative;
-  min-width: 150px; /* Prevent logo from shrinking */
 }
 
 .logo-link {
   text-decoration: none;
-  color: inherit;
+  display: block;
 }
 
 .logo-text {
-  display: flex;
-  align-items: baseline;
-  gap: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+  display: inline-block;
   white-space: nowrap;
 }
 
-.logo .book {
-  font-size: 28px;
-  color: #000;
-  letter-spacing: 0;
-  margin-right: -2px;
+.logo-text span {
+  display: inline;
 }
 
-.logo .to {
-  font-size: 20px;
+.logo-text .to {
   color: #fbfb00;
   font-style: italic;
-  transform: translateY(-2px);
-  margin: 0;
-  padding: 0 1px;
-}
-
-.logo .read {
-  font-size: 28px;
-  color: #000;
-  letter-spacing: 0;
-  margin-left: -2px;
-}
-
-.logo:hover .to {
-  transform: translateY(-4px);
-  transition: transform 0.3s ease;
-}
-
-.logo:hover .book,
-.logo:hover .read {
-  text-shadow: 2px 2px 0 #fbfb00;
-  transition: text-shadow 0.3s ease;
+  padding: 0 2px;
 }
 
 .nav {
@@ -76,12 +51,35 @@
   justify-content: center;
   align-items: center;
   order: 2;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  max-width: 600px;
+  z-index: 1;
 }
 
 .nav-links {
   display: flex;
   align-items: center;
   gap: 2.5rem;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #fbfb00 transparent;
+}
+
+.nav-links::-webkit-scrollbar {
+  width: 6px;
+}
+
+.nav-links::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.nav-links::-webkit-scrollbar-thumb {
+  background-color: #fbfb00;
+  border-radius: 3px;
 }
 
 .nav-link {
@@ -295,9 +293,46 @@
     margin-right: 20px;
   }
 
-  /* Hide signup and icons container completely in mobile */
+  /* Modify signup-icons-container for mobile */
   .signup-icons-container {
-    display: none !important; /* Force hide signup and bookmark */
+    display: flex !important;
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    gap: 15px;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .signup-icons-container .cart-icon-container {
+    margin: 0;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .signup-icons-container .cart-icon-container img {
+    width: 25px;
+    height: 25px;
+  }
+
+  .signup-icons-container .cart-item-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    z-index: 1000;
+  }
+
+  .signup-icons-container .userprofile-icon {
+    width: 30px;
+    height: 30px;
+    margin: 0;
+  }
+
+  .signup-icons-container .signup,
+  .signup-icons-container .log-out,
+  .signup-icons-container .icons {
+    display: none !important;
   }
 
   .nav {
@@ -312,6 +347,8 @@
     box-shadow: -2px 0 15px rgba(0, 0, 0, 0.1);
     z-index: 999;
     overflow-y: auto;
+    transform: none;
+    left: auto;
   }
 
   .nav.mobile-open {
@@ -389,7 +426,6 @@
   .logo {
     margin-left: 20px;
     padding: 5px;
-    min-width: 150px; /* Maintain minimum width */
   }
 }
 
@@ -428,39 +464,19 @@
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 481px) {
   .header {
     padding: 8px;
   }
 
   .logo {
-    font-size: 16px; /* Smaller font size */
-    margin-left: 10px; /* Slightly reduced margin */
+    font-size: 18px;
+    margin-left: 10px;
     padding: 5px;
   }
 
-  .logo .book,
-  .logo .read {
-    font-size: 16px; /* Smaller font size for main text */
-  }
-
-  .logo .to {
-    font-size: 12px; /* Smaller font size for 'to' */
-  }
-
-  .mobile-menu-button {
-    padding: 3px;
-    margin-right: 10px;
-  }
-
-  .hamburger,
-  .hamburger::before,
-  .hamburger::after {
-    width: 20px; /* Slightly smaller hamburger menu */
-  }
-
-  .nav {
-    width: 250px; /* Slightly smaller nav width */
+  .logo-text {
+    font-size: 18px;
   }
 }
 
@@ -470,19 +486,12 @@
   }
 
   .logo {
-    font-size: 18px;
-    margin-left: 20px;
-  }
-
-  .logo .book,
-  .logo .read {
-    font-size: 20px;
-    letter-spacing: 0;
-  }
-
-  .logo .to {
     font-size: 16px;
-    transform: translateY(-1px);
+    margin-left: 10px;
+  }
+
+  .logo-text {
+    font-size: 16px;
   }
 
   .mobile-menu-button {
@@ -500,13 +509,8 @@
     margin-left: 5px;
   }
 
-  .logo .book,
-  .logo .read {
+  .logo-text {
     font-size: 14px;
-  }
-
-  .logo .to {
-    font-size: 10px;
   }
 
   .mobile-menu-button {

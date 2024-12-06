@@ -50,10 +50,11 @@ const CartPopup = ({ closeCartPopup }) => {
         <img
           className='back-arrow'
           src='/images/back-arrow.png'
-          alt="Back Arrow"
+          alt="Back"
           onClick={closeCartPopup}
+          style={{ display: 'block', objectFit: 'contain' }}
         />
-        <h2 className='Cart title'> Shopping Cart</h2>
+        <h2 className='Cart title'>Shopping Cart</h2>
         <button className='clearcartbtn' onClick={clearCart}>Clear Cart</button>
       </div>
       {showCheckoutForm ? (

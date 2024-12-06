@@ -361,4 +361,35 @@ ul, li {
 .shoppingcart-ipU:hover,
 .buybutton-cmS:hover {
   background-color: #f9784b;
+}media screen and (max-width: 480px) {
+  .detail-9cQ {
+    padding: 1.5rem;
+    gap: 2rem;
+  }
+
+  .auto-group-smw2-UKE {
+    flex-direction: column;
+  }
+
+  .harry-potter-BjS {
+    font-size: 2.4rem;
+  }
+
+  .favorite-FzC {
+    align-self: flex-start;
+  }
+
+  .book-price {
+    font-size: 2.4rem;
+  }
+
+  .auto-group-igwq-Vgp {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .quantity-controls {
+    align-self: flex-start;
+  }
 }

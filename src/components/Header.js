@@ -145,12 +145,12 @@ const Header = () => {
             </div>
           )}
           <div className="icons">
-            {isCartOpen && <CartPopup closeCartPopup={closeCartPopup} />}
             <Link to="/bookmark">
               <img src="/images/bookmark.png" alt="Bookmark" />
             </Link>
           </div>
         </div>
+        {isCartOpen && <CartPopup closeCartPopup={closeCartPopup} />}
       </header>
     </div>
   );
