@@ -22,15 +22,7 @@ const BookInfo = () => {
     return bookmarkedBooks.some((b) => b.id === bookId);
   }, [bookmarkedBooks, bookId]);
 
-  const [quantity, setQuantity] = useState(1);
-  const [price, setPrice] = useState(0);
   const [isBookmarkedState, setIsBookmarkedState] = useState(isBookmarked());
-
-  useEffect(() => {
-    if (book) {
-      setPrice(book.price);
-    }
-  }, [book]);
 
   useEffect(() => {
     setIsBookmarkedState(isBookmarked());
@@ -154,7 +146,7 @@ const BookInfo = () => {
 
       <div className="book-details">
         <h1 className="book-title">{book.name}</h1>
-        <a href="#" className="book-author">by {book.author}</a>
+        <span className="book-author">by {book.author}</span>
         
         <p className="book-description">
           {book.description}

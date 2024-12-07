@@ -100,12 +100,15 @@ const Header = () => {
                     SIGNUP
                   </Link>
                 ) : (
-                  <Link to="#" className="nav-link" onClick={() => {
-                    handleLogout();
-                    setIsMobileMenuOpen(false);
-                  }}>
+                  <button 
+                    className="nav-link logout-btn" 
+                    onClick={() => {
+                      handleLogout();
+                      setIsMobileMenuOpen(false);
+                    }}
+                  >
                     LOGOUT
-                  </Link>
+                  </button>
                 )}
               </>
             )}
