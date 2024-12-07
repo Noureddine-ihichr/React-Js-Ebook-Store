@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCartContext } from '../pages/CartContext';
 import { useUser } from '../pages/UserContext';
+import { useBookContext } from '../pages/BookContext';
 import CartPopup from '../pages/CartPopup';
 import { useNavigate } from 'react-router-dom';
 import { showToast } from '../utils/toast';
@@ -11,6 +12,7 @@ import '../styles/header.css';
 const Header = () => {
   const { user, logout } = useUser();
   const { getTotalItems } = useCartContext();
+  const { bookmarkedBooks } = useBookContext();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -89,6 +91,9 @@ const Header = () => {
               <>
                 <Link to="/bookmark" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>
                   BOOKMARK
+                  {bookmarkedBooks.length > 0 && (
+                    <span className="bookmark-count mobile">{bookmarkedBooks.length}</span>
+                  )}
                 </Link>
                 {!user ? (
                   <Link to="/signup" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>
@@ -147,6 +152,9 @@ const Header = () => {
           <div className="icons">
             <Link to="/bookmark">
               <img src="/images/bookmark.png" alt="Bookmark" />
+              {bookmarkedBooks.length > 0 && (
+                <span className="bookmark-count">{bookmarkedBooks.length}</span>
+              )}
             </Link>
           </div>
         </div>

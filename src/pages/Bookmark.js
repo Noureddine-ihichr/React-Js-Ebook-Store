@@ -20,10 +20,26 @@ const Bookmark = () => {
 
   const handleRemoveBookmark = (bookId) => {
     removeBookFromBookmark(bookId);
+    showToast.success("Book removed from bookmarks!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
 
   const handleClearAll = () => {
     clearAllBookmarks();
+    showToast.success("All bookmarks cleared!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
 
   const handleAddToCart = (book) => {

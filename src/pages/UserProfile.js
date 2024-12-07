@@ -1,25 +1,43 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useUser } from './UserContext';
 import { showToast } from '../utils/toast';
 import '../styles/userprofile.css';
+import { 
+  FaCamera, FaEdit, FaSave, FaTimes, FaUser, 
+  FaEnvelope, FaPhone, FaBook, FaBookmark, FaShoppingCart 
+} from 'react-icons/fa';
+import { useBookContext } from './BookContext';
+import { useCartContext } from './CartContext';
 
 const UserProfile = () => {
   const { user, updateUser } = useUser();
+  const { bookmarkedBooks } = useBookContext();
+  const { cart } = useCartContext();
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState(user || {});
+  const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    if (user) {
+      setEditedUser(user);
+    }
+  }, [user]);
 
   if (!user) {
     return (
-      <div className="user-profile-container">
-        <div className="not-logged-in">
-          <h2>Please log in to view your profile</h2>
+      <div className="profile-page">
+        <div className="profile-card">
+          <div className="not-logged-in">
+            <FaUser className="login-icon" />
+            <h2>Please log in to view your profile</h2>
+          </div>
         </div>
       </div>
     );
   }
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
       if (file.size > 5000000) {
@@ -27,12 +45,19 @@ const UserProfile = () => {
         return;
       }
 
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setEditedUser({ ...editedUser, profilePicture: reader.result });
-        showToast.success('Profile picture updated');
-      };
-      reader.readAsDataURL(file);
+      setLoading(true);
+      try {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setEditedUser({ ...editedUser, profilePicture: reader.result });
+          showToast.success('Profile picture updated');
+          setLoading(false);
+        };
+        reader.readAsDataURL(file);
+      } catch (error) {
+        showToast.error('Error updating profile picture');
+        setLoading(false);
+      }
     }
   };
 
@@ -47,112 +72,160 @@ const UserProfile = () => {
       return;
     }
 
-    updateUser(editedUser);
-    setIsEditing(false);
-    showToast.success('Profile updated successfully!');
-  };
+    if (!editedUser.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      showToast.error('Please enter a valid email address');
+      return;
+    }
 
-  const handleCancel = () => {
-    setIsEditing(false);
-    setEditedUser(user);
-    showToast.info('Changes cancelled');
+    if (!editedUser.phoneNumber.match(/^\d{10}$/)) {
+      showToast.error('Please enter a valid 10-digit phone number');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      updateUser(editedUser);
+      setIsEditing(false);
+      showToast.success('Profile updated successfully');
+    } catch (error) {
+      showToast.error('Error updating profile');
+    }
+    setLoading(false);
   };
 
   return (
-    <div className="user-profile-container">
-      <div className="profile-header">
-        <div className="profile-cover"></div>
-        <div className="profile-avatar-container">
-          <div className="profile-avatar-wrapper">
-            <img
-              src={isEditing ? editedUser.profilePicture || '/images/iconprofile.png' : user.profilePicture || '/images/iconprofile.png'}
-              alt="Profile"
-              className="profile-avatar"
-            />
-            {isEditing && (
-              <div className="avatar-overlay">
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={handleImageChange}
-                  accept="image/*"
-                  className="file-input"
-                  id="profile-upload"
-                />
-                <label htmlFor="profile-upload" className="upload-button">
-                  <i className="fas fa-camera"></i>
-                  Change Photo
-                </label>
+    <div className="profile-page">
+      <div className="profile-card">
+        <div className="profile-header">
+          <div className="cover-photo" />
+          <div className="profile-photo-container">
+            <div className="profile-photo" onClick={() => fileInputRef.current.click()}>
+              {editedUser.profilePicture ? (
+                <img src={editedUser.profilePicture} alt="Profile" />
+              ) : (
+                <div className="default-avatar">
+                  <FaUser />
+                </div>
+              )}
+              <div className="profile-photo-overlay">
+                <FaCamera size={24} color="white" />
               </div>
-            )}
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleImageChange}
+                accept="image/*"
+                className="hidden-input"
+              />
+            </div>
           </div>
-          <h2 className="profile-name">{user.name}</h2>
         </div>
-      </div>
 
-      <div className="profile-content">
-        {isEditing ? (
-          <div className="profile-edit-form">
-            <div className="form-group">
-              <label>Full Name</label>
-              <input
-                type="text"
-                value={editedUser.name || ''}
-                onChange={(e) => setEditedUser({ ...editedUser, name: e.target.value })}
-                placeholder="Enter your name"
-              />
+        <div className="profile-body">
+          {isEditing ? (
+            <div className="edit-form">
+              <div className="form-group">
+                <div className="input-icon">
+                  <FaUser className="icon" />
+                  <input
+                    type="text"
+                    value={editedUser.name || ''}
+                    onChange={(e) => setEditedUser({ ...editedUser, name: e.target.value })}
+                    placeholder="Full Name"
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+              <div className="form-group">
+                <div className="input-icon">
+                  <FaEnvelope className="icon" />
+                  <input
+                    type="email"
+                    value={editedUser.email || ''}
+                    onChange={(e) => setEditedUser({ ...editedUser, email: e.target.value })}
+                    placeholder="Email Address"
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+              <div className="form-group">
+                <div className="input-icon">
+                  <FaPhone className="icon" />
+                  <input
+                    type="tel"
+                    value={editedUser.phoneNumber || ''}
+                    onChange={(e) => setEditedUser({ ...editedUser, phoneNumber: e.target.value })}
+                    placeholder="Phone Number"
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+              <div className="action-buttons">
+                <button 
+                  className="save-btn" 
+                  onClick={handleSave}
+                  disabled={loading}
+                >
+                  <FaSave /> Save Changes
+                </button>
+                <button 
+                  className="cancel-btn" 
+                  onClick={() => {
+                    setIsEditing(false);
+                    setEditedUser(user);
+                  }}
+                  disabled={loading}
+                >
+                  <FaTimes /> Cancel
+                </button>
+              </div>
             </div>
-            <div className="form-group">
-              <label>Email Address</label>
-              <input
-                type="email"
-                value={editedUser.email || ''}
-                onChange={(e) => setEditedUser({ ...editedUser, email: e.target.value })}
-                placeholder="Enter your email"
-              />
-            </div>
-            <div className="form-group">
-              <label>Phone Number</label>
-              <input
-                type="tel"
-                value={editedUser.phoneNumber || ''}
-                onChange={(e) => setEditedUser({ ...editedUser, phoneNumber: e.target.value })}
-                placeholder="Enter your phone number"
-              />
-            </div>
-            <div className="profile-actions">
-              <button className="save-button" onClick={handleSave}>
-                Save Changes
-              </button>
-              <button className="cancel-button" onClick={handleCancel}>
-                Cancel
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="profile-info">
-            <div className="info-section">
-              <h3>Personal Information</h3>
+          ) : (
+            <div className="profile-info">
               <div className="info-grid">
                 <div className="info-item">
-                  <span className="info-label">Full Name</span>
-                  <span className="info-value">{user.name}</span>
+                  <FaUser className="info-icon" />
+                  <div className="info-content">
+                    <span className="info-label">Name</span>
+                    <span className="info-value">{user.name}</span>
+                  </div>
                 </div>
                 <div className="info-item">
-                  <span className="info-label">Email</span>
-                  <span className="info-value">{user.email}</span>
-                </div>
-                <div className="info-item">
-                  <span className="info-label">Phone</span>
-                  <span className="info-value">{user.phoneNumber}</span>
+                  <FaEnvelope className="info-icon" />
+                  <div className="info-content">
+                    <span className="info-label">Email</span>
+                    <span className="info-value">{user.email}</span>
+                  </div>
                 </div>
               </div>
-              <button className="edit-button" onClick={handleEditClick}>
-                Edit Profile
+
+              <div className="stats-grid">
+                <div className="stat-item">
+                  <FaShoppingCart className="stat-icon" />
+                  <div className="stat-content">
+                    <span className="stat-value">{cart.length}</span>
+                    <span className="stat-label">Cart Items</span>
+                  </div>
+                </div>
+                <div className="stat-item">
+                  <FaBookmark className="stat-icon" />
+                  <div className="stat-content">
+                    <span className="stat-value">{bookmarkedBooks.length}</span>
+                    <span className="stat-label">Bookmarks</span>
+                  </div>
+                </div>
+              </div>
+
+              <button 
+                className="edit-btn" 
+                onClick={handleEditClick}
+                disabled={loading}
+              >
+                <FaEdit /> Edit Profile
               </button>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

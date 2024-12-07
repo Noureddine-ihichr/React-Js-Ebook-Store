@@ -89,6 +89,9 @@
   font-size: 18px;
   transition: color 0.3s ease-in-out;
   white-space: nowrap;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
 }
 
 .nav-link:hover {
@@ -141,6 +144,11 @@
   align-items: center;
 }
 
+.icons a {
+  position: relative;
+  display: inline-block;
+}
+
 .icons img {
   width: 25px;
   height: 25px;
@@ -152,10 +160,29 @@
   animation: pulse 0.3s ease-in-out infinite;
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+.bookmark-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #fbfb00;
+  color: #2c3e50;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px;
+}
+
+.bookmark-count.mobile {
+  position: relative;
+  display: inline-flex;
+  top: -2px;
+  right: 0;
+  margin-left: 8px;
 }
 
 .cart-icon-container {
@@ -297,10 +324,10 @@
   .signup-icons-container {
     display: flex !important;
     position: absolute;
-    right: 60px;
+    right: 50px;
     top: 50%;
     transform: translateY(-50%);
-    gap: 15px;
+    gap: 10px;
     align-items: center;
     z-index: 1000;
   }
@@ -480,6 +507,13 @@
   }
 }
 
+@media screen and (max-width: 480px) {
+  .signup-icons-container {
+    right: 45px;
+    gap: 5px;
+  }
+}
+
 @media screen and (max-width: 400px) {
   .header {
     padding: 8px;
@@ -516,4 +550,10 @@
   .mobile-menu-button {
     margin-right: 5px;
   }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }

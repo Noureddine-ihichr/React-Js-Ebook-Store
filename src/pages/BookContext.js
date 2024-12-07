@@ -64,7 +64,6 @@ export const BookProvider = ({ children }) => {
 
   const clearAllBookmarks = () => {
     setBookmarkedBooks([]);
-    showToast.success('All bookmarks cleared');
   };
 
   const addToCart = (book) => {

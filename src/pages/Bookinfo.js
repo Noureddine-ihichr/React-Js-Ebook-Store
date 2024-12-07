@@ -4,7 +4,7 @@ import { useBookContext } from './BookContext';
 import { useParams } from 'react-router-dom';
 import { useUser } from '../pages/UserContext';
 import { useCartContext } from './CartContext';
-import { showToast } from '../utils/toast';
+import { toast } from 'react-toastify';
 import booksData from '../datas/data';
 
 import '../styles/book-info.css';
@@ -24,16 +24,7 @@ const BookInfo = () => {
 
   const [quantity, setQuantity] = useState(1);
   const [price, setPrice] = useState(0);
-  const [isBookmarkedState, setIsBookmarked] = useState(isBookmarked());
-
-  const updateQuantityDisplay = useCallback(() => {
-    document.getElementById("quantity").innerText = `${quantity}`.padStart(2, '0');
-  }, [quantity]);
-
-  const updateTotalPrice = useCallback(() => {
-    const totalPrice = (quantity * price).toFixed(2);
-    document.getElementById("book-price").innerText = `$${totalPrice}`;
-  }, [quantity, price]);
+  const [isBookmarkedState, setIsBookmarkedState] = useState(isBookmarked());
 
   useEffect(() => {
     if (book) {
@@ -42,105 +33,170 @@ const BookInfo = () => {
   }, [book]);
 
   useEffect(() => {
-    updateQuantityDisplay();
-    updateTotalPrice();
-    setIsBookmarked(isBookmarked());
-  }, [quantity, price, updateQuantityDisplay, updateTotalPrice, isBookmarked]);
-
-  const increaseQuantity = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
-  };
-
-  const decreaseQuantity = () => {
-    if (quantity > 1) {
-      setQuantity((prevQuantity) => prevQuantity - 1);
-    }
-  };
+    setIsBookmarkedState(isBookmarked());
+  }, [isBookmarked]);
 
   const toggleBookmark = () => {
     if (!user) {
+      toast.warning('Please log in to bookmark', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       navigate('/login');
       return;
     }
 
     if (!isBookmarkedState) {
       addBookToBookmark(book);
+      toast.success("Book added to bookmarks!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     } else {
       removeBookFromBookmark(bookId);
+      toast.success("Book removed from bookmarks!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
-    setIsBookmarked((prevIsBookmarked) => !prevIsBookmarked);
+    setIsBookmarkedState(!isBookmarkedState);
   };
 
   const addToCartHandler = () => {
     if (!user) {
-      showToast.warning('Please log in to add items to cart');
+      toast.warning('Please log in to add items to cart', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       navigate('/login');
       return;
     }
 
     addToCart(book);
-    showToast.success('Added to cart successfully!');
+    toast.success("Book added to cart!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
 
   const buyNowHandler = () => {
     if (!user) {
-      showToast.warning('Please log in to purchase');
+      toast.warning('Please log in to purchase', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
       navigate('/login');
       return;
     }
-    else{
-      addToCart(book);
-      navigate('/payment');
-    }
+    // Add to cart and redirect to cart page
+    addToCart(book);
+    toast.success("Proceeding to checkout...", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+    // Add navigation to cart/checkout page here
+    navigate('/payment');
+  };
+
+  if (!book) {
+    return <div>Book not found</div>;
   }
 
   return (
-    <div className="book-info-page-Erp">
-      <div className="detail-9cQ">
-        <div className="auto-group-tmgp-EXN">
-          <div className="coverbook-XmN">
-            <img className="book-cover" src={book.img} alt={book.name} />
-          </div>
-          <div className="download-1-2-r2x"></div>
+    <div className="book-info-container">
+      <div className="book-cover-section">
+        <div className="book-cover-container">
+          <button 
+            className="bookmark-btn"
+            onClick={toggleBookmark}
+            aria-label={isBookmarkedState ? "Remove from bookmarks" : "Add to bookmarks"}
+          >
+            <img 
+              src={isBookmarkedState ? "/images/bookmark after.png" : "/images/bookmark.png"} 
+              alt="Bookmark"
+            />
+          </button>
+          <img 
+            src={book.img} 
+            alt={book.name} 
+            className="book-cover"
+          />
         </div>
-        <div className="bookdetails-kPE">
-          <div className="auto-group-smw2-UKE">
-            <p className="harry-potter-BjS">{book.name}</p>
-            <div className="favorite-FzC">
-              <img
-                className="bookmarksimple-C8k"
-                src={isBookmarkedState ? "/images/bookmark after.png" : "/images/bookmark.png"}
-                alt="bookmark"
-                onClick={toggleBookmark}
-              />
-            </div>
+      </div>
+
+      <div className="book-details">
+        <h1 className="book-title">{book.name}</h1>
+        <a href="#" className="book-author">by {book.author}</a>
+        
+        <p className="book-description">
+          {book.description}
+        </p>
+
+        <div className="price-actions">
+          <span className="book-price">${book.price}</span>
+          
+          <div className="actions-container">
+            <button 
+              className="add-to-cart-btn"
+              onClick={addToCartHandler}
+            >
+              <img src="/images/cart.png" alt="Cart" />
+              Add to Cart
+            </button>
+
+            <button 
+              className="buy-now-btn"
+              onClick={buyNowHandler}
+            >
+              Buy Now
+            </button>
           </div>
-          <div className="bannerdashbgiii-5iL">
-            <div className="rectangle-11-1bz"></div>
-            <div className="rectangle-10-jXz"></div>
-            <p className="author-a-jack-thorne-32t">
-              <span className="author-a-jack-thorne-32t-sub-0">Author (a): </span>
-              <span className="author-a-jack-thorne-32t-sub-1">{book.author}</span>
-            </p>
+        </div>
+
+        <div className="book-details-grid">
+          <div className="detail-item">
+            <span className="detail-label">Publisher</span>
+            <span className="detail-value">{book.publisher}</span>
           </div>
-          <div className="bannerdashbgii-2Z2">
-            <div className="rectangle-11-YnG"></div>
-            <div className="rectangle-10-sZe"></div>
-            <p className="Description-text">{book.description}</p>
+          <div className="detail-item">
+            <span className="detail-label">Language</span>
+            <span className="detail-value">{book.language}</span>
           </div>
-          <div className="auto-group-rv6l-7MW">
-            <p className="item-1400-EBE" id="book-price">{`$${price.toFixed(2)}`}</p>
-            <div className="countproduct-k9a">
-              <img className="minuscircle-5Sk" src="/images/minus.png" alt="minus" onClick={decreaseQuantity} />
-              <div id="quantity" className="auto-group-98uz-1rC">{quantity.toString().padStart(2, '0')}</div>
-              <img className="pluscircle-N6Q" src="/images/plus.png" alt="plus" onClick={increaseQuantity} />
-            </div>
+          <div className="detail-item">
+            <span className="detail-label">Pages</span>
+            <span className="detail-value">{book.pages}</span>
           </div>
-          <div className="auto-group-igwq-Vgp">
-            <div className="buybutton-cmS" onClick={addToCartHandler}>
-              <img className="shoppingcart-ipU" src="/images/cart.png" alt="Add to Cart " onClick={addToCartHandler} />
-            </div>
-            <button className="rectbuttoniv-DWL" onClick={buyNowHandler} >Buy Now</button>
+          <div className="detail-item">
+            <span className="detail-label">Format</span>
+            <span className="detail-value">{book.format}</span>
           </div>
         </div>
       </div>

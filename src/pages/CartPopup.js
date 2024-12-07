@@ -44,18 +44,31 @@ const CartPopup = ({ closeCartPopup }) => {
     closeCartPopup();
   };
 
+  const handleClearCart = () => {
+    if (cart.length === 0) {
+      showToast.warning('Cart is already empty');
+      return;
+    }
+    clearCart();
+    showToast.success('Cart cleared successfully!');
+  };
+
   return (
     <div className="cart-popup">
       <div className="cart-header">
         <img
           className='back-arrow'
-          src='/images/back-arrow.png'
+          src="/images/back-arrow.png"
           alt="Back"
           onClick={closeCartPopup}
           style={{ display: 'block', objectFit: 'contain' }}
         />
         <h2 className='Cart title'>Shopping Cart</h2>
-        <button className='clearcartbtn' onClick={clearCart}>Clear Cart</button>
+        {cart.length > 0 && (
+          <button className="clear-cart" onClick={handleClearCart}>
+            Clear All
+          </button>
+        )}
       </div>
       {showCheckoutForm ? (
         <CheckoutForm onCheckout={handleCheckoutComplete} onClose={() => setShowCheckoutForm(false)} />
