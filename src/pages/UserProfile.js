@@ -4,7 +4,7 @@ import { showToast } from '../utils/toast';
 import '../styles/userprofile.css';
 import { 
   FaCamera, FaEdit, FaSave, FaTimes, FaUser, 
-  FaEnvelope, FaPhone, FaBook, FaBookmark, FaShoppingCart 
+  FaEnvelope, FaPhone, FaBookmark, FaShoppingCart 
 } from 'react-icons/fa';
 import { useBookContext } from './BookContext';
 import { useCartContext } from './CartContext';
@@ -49,7 +49,9 @@ const UserProfile = () => {
       try {
         const reader = new FileReader();
         reader.onloadend = () => {
-          setEditedUser({ ...editedUser, profilePicture: reader.result });
+          const updatedUser = { ...editedUser, profilePicture: reader.result };
+          setEditedUser(updatedUser);
+          updateUser(updatedUser); // Update both state and localStorage
           showToast.success('Profile picture updated');
           setLoading(false);
         };

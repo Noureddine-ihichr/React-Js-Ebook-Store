@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useBookContext } from './BookContext';
 import { useCartContext } from './CartContext';
@@ -12,9 +12,14 @@ const Bookmark = () => {
   const { user } = useUser();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!user) {
+      showToast.warning('Please log in to view bookmarks');
+      setTimeout(() => navigate('/login'), 100);
+    }
+  }, [user, navigate]);
+
   if (!user) {
-    showToast.warning('Please log in to view your bookmarks');
-    navigate('/login');
     return null;
   }
 

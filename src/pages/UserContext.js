@@ -15,6 +15,7 @@ export const UserProvider = ({ children }) => {
     const finalUserData = existingUser || {
       ...userData,
       name: userData.name || '',
+      profilePicture: userData.profilePicture || null
     };
 
     setUser(finalUserData);
@@ -44,11 +45,17 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const storedUserData = localStorage.getItem('userData');
     if (storedUserData) {
-      const userData = JSON.parse(storedUserData);
-      setUser({
-        ...userData,
-        name: userData.name || '',
-      });
+      try {
+        const userData = JSON.parse(storedUserData);
+        setUser({
+          ...userData,
+          name: userData.name || '',
+          profilePicture: userData.profilePicture || null
+        });
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+        localStorage.removeItem('userData');
+      }
     }
   }, []);
 
